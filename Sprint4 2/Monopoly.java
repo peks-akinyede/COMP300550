@@ -193,7 +193,8 @@ public class Monopoly {
 				dice.roll();
 				ui.displayDice(currPlayer, dice);
 				if (!currPlayer.isInJail()) {
-					currPlayer.move(dice.getTotal());
+					//currPlayer.move(dice.getTotal());
+					currPlayer.move(2);//jumps to community chest
 					ui.display();
 					checkPassedGo();
 					squareArrival();
