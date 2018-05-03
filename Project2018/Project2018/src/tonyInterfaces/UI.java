@@ -1,9 +1,11 @@
+package tonyInterfaces;
+
 import java.awt.BorderLayout;
+import java.awt.Dimension;
 
 import javax.swing.JFrame;
-import javax.swing.JPanel;
+import javax.swing.JLayeredPane;
 import javax.swing.JSplitPane;
-
 import java.util.ArrayList;
 
 public class UI {
@@ -12,7 +14,7 @@ public class UI {
 	private static final int FRAME_HEIGHT = 700;
 
 	public static final String CURRENCY = " pounds";
-	public static final String CURRENCY_SYMBOL = "£";
+	public static final String CURRENCY_SYMBOL = "Â£";
 	
 	public static final int CMD_QUIT = 0;
 	public static final int CMD_DONE = 1;
@@ -78,6 +80,7 @@ public class UI {
 		"Error: You are not in jail."
 	};
 	
+	
 	private JFrame frame = new JFrame();
 	private BoardPanel boardPanel;	
 	private InfoPanel infoPanel = new InfoPanel();
@@ -85,19 +88,85 @@ public class UI {
 	private String string;
 	private boolean done;
 	private int commandId;
-	private Board board;
+	private WorldBuilder board;
 	private Players players;
-	private Property inputProperty;
+	private PrivateProperty inputProperty;
 	private int inputNumber;
 	private Player inputPlayer;
 	private boolean inputWasPay;
+	private Bot[] bots;
 	
-	UI (Players players, Board board) {
+//	private JFrame frame = new JFrame();
+//	private BoardPanel boardPanel;	
+//	private InfoPanel infoPanel = new InfoPanel();
+//	private CommandPanel commandPanel = new CommandPanel();
+//	private String string;
+//	private boolean done;
+//	private int commandId;
+//	private WorldBuilder board;
+//	private Players players;
+//	private PrivateProperty inputProperty;
+//	private int inputNumber;
+//	private Player inputPlayer;
+//	private boolean inputWasPay;
+	
+	
+	UI (Players players, WorldBuilder board, Bot[] bots) {
+		this.players = players;
+		this.board = board;
+		this.bots = bots;
+		boardPanel = new BoardPanel(this.players);
+		BoardNames boardnames = new BoardNames(board);
+		boardnames.setOpaque(false);
+
+		frame.setSize(FRAME_WIDTH, FRAME_HEIGHT);
+		frame.setLayout(new BorderLayout());
+		frame.setTitle("Monopoly");
+		frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+
+//		JPanel gamePanel = new JPanel();
+//		gamePanel.setLayout(new OverlayLayout(gamePanel));
+//		gamePanel.add(boardPanel, BorderLayout.CENTER);
+//		gamePanel.add(boardnames, BorderLayout.CENTER);
+//		frame.add(gamePanel, BorderLayout.LINE_START);
+		
+		//ScoreBoardPanel scoreBoardPanel = new ScoreBoardPanel();
+
+		
+//		frame.add(boardnames, BorderLayout.LINE_START);
+		JLayeredPane namePane = new JLayeredPane();
+		namePane.setPreferredSize(new Dimension(700,700));
+
+		namePane.add(boardPanel, new Integer(1));
+		boardPanel.setBounds(0, 0, 700, 680);
+		namePane.add(boardnames, new Integer(2));
+		boardnames.setBounds(0,0,700,680);
+		
+
+		frame.add(namePane, BorderLayout.CENTER);
+	
+		JSplitPane splitPane = new JSplitPane(JSplitPane.VERTICAL_SPLIT,
+                infoPanel, commandPanel);
+		//JSplitPane splitPane2 = new JSplitPane(JSplitPane.VERTICAL_SPLIT,
+             //splitPane, scoreBoardPanel);
+		splitPane.setDividerSize(1);
+		//splitPane2.setDividerSize(1);
+		splitPane.setResizeWeight(0.95); 
+
+
+		frame.add(splitPane, BorderLayout.EAST);
+
+		frame.setResizable(false);
+		frame.setVisible(true);
+		return;
+	}
+	
+	UI (Players players, WorldBuilder board) {
 			
 		this.players = players;
 		this.board = board;
 		boardPanel = new BoardPanel(this.players);
-		ScoreBoardPanel scoreBoardPanel = new ScoreBoardPanel();
+//		ScoreBoardPanel scoreBoardPanel = new ScoreBoardPanel();
 		frame.setSize(FRAME_WIDTH, FRAME_HEIGHT);
 		frame.setLayout(new BorderLayout());
 		frame.setTitle("Monopoly");
@@ -106,67 +175,72 @@ public class UI {
 		frame.add(boardPanel, BorderLayout.LINE_START);
 		JSplitPane splitPane = new JSplitPane(JSplitPane.VERTICAL_SPLIT,
                 infoPanel, commandPanel);
-		JSplitPane splitPane2 = new JSplitPane(JSplitPane.VERTICAL_SPLIT,
-                splitPane, scoreBoardPanel);
+//		JSplitPane splitPane2 = new JSplitPane(JSplitPane.VERTICAL_SPLIT,
+//                splitPane, scoreBoardPanel);
 		splitPane.setDividerSize(1);
-		splitPane2.setDividerSize(1);
+//		splitPane2.setDividerSize(1);
+		splitPane.setResizeWeight(0.95); 
 
-		frame.add(splitPane2, BorderLayout.CENTER);
-		
-//		frame.add(infoPanel, BorderLayout.LINE_END);
-//		frame.add(commandPanel, BorderLayout.PAGE_END);
 
+		frame.add(splitPane, BorderLayout.CENTER);
 		
-		
-//		frame.add(boardPanel, BorderLayout.LINE_START);
-		
-//		subpanel.setBounds(700,0,320,700);
-//		subpanel.setLayout(new BorderLayout());
-//		subpanel.add(infoPanel, BorderLayout.WEST);
-//		subpanel.add(commandPanel,BorderLayout.EAST);
-//		
-//		frame.add(subpanel, BorderLayout.LINE_END);
-//		frame.add(infoPanel, BorderLayout.LINE_END);
-//		frame.add(commandPanel,BorderLayout.PAGE_END);
+
 	
 		frame.setResizable(false);
 		frame.setVisible(true);
-		return;
 	}
 
 //  METHODS DEALING WITH USER INPUT
 
-
-	public void inputName (int numPlayers) {
-		boolean inputValid = false;
-		if (numPlayers == 0) {
-			infoPanel.displayString("Enter new player name (" + boardPanel.getTokenName(numPlayers) + "):");			
+	
+	public void inputName (int numPlayer) {
+		if (numPlayer == 0) {
+			infoPanel.displayString("Enter new player name (" + boardPanel.getTokenName(numPlayer) + "):");			
 		} else {
-			infoPanel.displayString("Enter new player name (" + boardPanel.getTokenName(numPlayers)  +  ") or done:");
+			infoPanel.displayString("Enter new player name (" + boardPanel.getTokenName(numPlayer)  +  ") or done:");
 		}
-		do {
-			commandPanel.inputString();
-			string = commandPanel.getString();
-			string = string.trim();
-			if (string.length()==0) {
-				inputValid = false;
-				done = false;
-			} else if ( (numPlayers > 0) && (string.toLowerCase().equals("done")) ) {
-				inputValid = true;
-				done = true;
-			} else if (string.contains(" ")) {
-				inputValid = false;
-				done = false;
-			} else {
-				inputValid = true;
-			}
-			infoPanel.displayString("> " + string);
-			if (!inputValid) {
-				displayError(ERR_NOT_A_NAME);
-			}
-		} while (!inputValid);
+		if (numPlayer < Monopoly.NUM_PLAYERS) {
+			string = bots[numPlayer].getName();
+			done = false;
+		} else if (numPlayer == Monopoly.NUM_PLAYERS) {
+			string = "DONE";
+			done = true;
+		}
+		infoPanel.displayString("> " + string);
 		return;
 	}
+	
+
+//	public void inputName (int numPlayers) {
+//		boolean inputValid = false;
+//		if (numPlayers == 0) {
+//			infoPanel.displayString("Enter new player name (" + boardPanel.getTokenName(numPlayers) + "):");			
+//		} else {
+//			infoPanel.displayString("Enter new player name (" + boardPanel.getTokenName(numPlayers)  +  ") or done:");
+//		}
+//		do {
+//			commandPanel.inputString();
+//			string = commandPanel.getString();
+//			string = string.trim();
+//			if (string.length()==0) {
+//				inputValid = false;
+//				done = false;
+//			} else if ( (numPlayers > 0) && (string.toLowerCase().equals("done")) ) {
+//				inputValid = true;
+//				done = true;
+//			} else if (string.contains(" ")) {
+//				inputValid = false;
+//				done = false;
+//			} else {
+//				inputValid = true;
+//			}
+//			infoPanel.displayString("> " + string);
+//			if (!inputValid) {
+//				displayError(ERR_NOT_A_NAME);
+//			}
+//		} while (!inputValid);
+//		return;
+//	}
 	
 	private boolean hasNoArgument (String[] words) {
 		return (words.length == 1);
@@ -176,22 +250,25 @@ public class UI {
 		return (words.length == 2);
 	}	
 
-	private boolean hasTwoArguments (String[] words) {
-		return (words.length==3);
-	}
 	
 	public void inputCommand (Player player) {
 		boolean inputValid = false;
 		do {
 			infoPanel.displayString(player + " type your command:");
-			commandPanel.inputString();
-			string = commandPanel.getString();
+			string = bots[player.getTokenId()].getCommand();
 			infoPanel.displayString("> " + string);
-			string = commandPanel.getString();
 			string = string.toLowerCase();
 			string = string.trim();
 			string = string.replaceAll("( )+", " ");
 			String[] words = string.split(" ");
+			int num_index=0;
+			boolean found = false;
+			for(int i=0;i<words.length&&!found;i++){
+				if(words[i].matches("[0-9]+")){
+					found = true;
+					num_index = i;
+				}
+			}
 			switch (words[0]) {
 				case "quit" :
 					commandId = CMD_QUIT;
@@ -223,7 +300,7 @@ public class UI {
 					break;
 				case "mortgage" :
 					commandId = CMD_MORTGAGE;
-					if (hasOneArgument(words) && board.isProperty(words[1])) { 
+					if (board.isProperty(words[1])) { 
 						inputProperty = board.getProperty(words[1]);
 						inputValid = true;
 					} else {
@@ -232,7 +309,7 @@ public class UI {
 					break;
 				case "redeem" :
 					commandId = CMD_REDEEM;
-					if (hasOneArgument(words) && board.isProperty(words[1])) { 
+					if (board.isProperty(words[1])) { 
 						inputProperty = board.getProperty(words[1]);
 						inputValid = true;
 					} else {
@@ -241,9 +318,9 @@ public class UI {
 					break;
 				case "build" :
 					commandId = CMD_BUILD;
-					if (hasTwoArguments(words) && board.isSite(words[1]) && words[2].matches("[0-9]+")) { 
+					if (board.isSite(words[1]) && words[num_index].matches("[0-9]+")) { 
 						inputProperty = board.getProperty(words[1]);
-						inputNumber = Integer.parseInt(words[2]);
+						inputNumber = Integer.parseInt(words[num_index]);
 						inputValid = true;
 					} else {
 						inputValid = false;
@@ -251,9 +328,9 @@ public class UI {
 					break;
 				case "demolish" :
 					commandId = CMD_DEMOLISH;
-					if (hasTwoArguments(words) && board.isSite(words[1]) && words[2].matches("[0-9]+")) { 
+					if (board.isSite(words[1]) && words[num_index].matches("[0-9]+")) { 
 						inputProperty = board.getProperty(words[1]);
-						inputNumber = Integer.parseInt(words[2]);
+						inputNumber = Integer.parseInt(words[num_index]);
 						inputValid = true;
 					} else {
 						inputValid = false;
@@ -271,15 +348,6 @@ public class UI {
 					commandId = CMD_HELP;
 					inputValid = hasOneArgument(words);
 					inputValid = true;
-					break;
-				case "cheat" :
-					commandId = CMD_CHEAT;
-					if (hasOneArgument(words) && words[1].matches("[0-9]+")) {
-						inputNumber = Integer.parseInt(words[1]);
-						inputValid = true;
-					} else {
-						inputValid = false;
-					}
 					break;
 				default:
 					inputValid = false;
@@ -312,7 +380,7 @@ public class UI {
 		return done;
 	}
 	
-	public Property getInputProperty () {
+	public PrivateProperty getInputProperty () {
 		return inputProperty;
 	}
 	
@@ -430,18 +498,18 @@ public class UI {
 	}
 	
 	public void displayProperty (Player player) {
-		ArrayList<Property> propertyList = player.getProperties();
+		ArrayList<PrivateProperty> propertyList = player.getProperties();
 		if (propertyList.size() == 0) {
 			infoPanel.displayString(player + " owns no property.");
 		} else {
 			infoPanel.displayString(player + " owns the following property...");
-			for (Property p : propertyList) {
+			for (PrivateProperty p : propertyList) {
 				String mortgageStatus = "";
 				if (p.isMortgaged()) {
 					mortgageStatus = ", is mortgaged";
 				}
-				if (p instanceof Site) {
-					Site site = (Site) p;
+				if (p instanceof InvestmentProperty) {
+					InvestmentProperty site = (InvestmentProperty) p;
 					String buildStatus = "";
 					if (site.getNumBuildings()==0) {
 						buildStatus = "with no buildings";
@@ -452,9 +520,9 @@ public class UI {
 					} else if (site.getNumBuildings()==5) {
 						buildStatus = "with a hotel";
 					}
-					infoPanel.displayString(site + " (" + site.getColourGroup().getName() + "), rent " + site.getRent() + CURRENCY + ", " + buildStatus + mortgageStatus + ".");		
-				} else if (p instanceof Station) {
-					infoPanel.displayString(p + ", rent " + p.getRent() + CURRENCY + mortgageStatus + ".");	
+					infoPanel.displayString(site + " (" + site.getColourGroup().getName() + "), rent " + site.getRentalAmount() + CURRENCY + ", " + buildStatus + mortgageStatus + ".");		
+				} else if (p instanceof Vehicle) {
+					infoPanel.displayString(p + ", rent " + ((Vehicle) p).getRent() + CURRENCY + mortgageStatus + ".");	
 				} else if (p instanceof Utility) {
 					infoPanel.displayString(p + ", rent " + ((Utility) p).getRentMultiplier() + " times dice" + mortgageStatus + ".");
 				}
@@ -463,10 +531,10 @@ public class UI {
 	}
 	
 	public void displaySquare (Player player) {
-		Square square = board.getSquare(player.getPosition());
-		infoPanel.displayString(player + " arrives at " + square.getName() + ".");
-		if (square instanceof Property) {
-			Property property = (Property) square;
+		NamedLocation square = board.getSquare(player.getPosition());
+		infoPanel.displayString(player + " arrives at " + square.getIdentifier() + ".");
+		if (square instanceof PrivateProperty) {
+			PrivateProperty property = (PrivateProperty) square;
 			if (property.isOwned()) {
 				infoPanel.displayString("The property is owned by " + property.getOwner() + ".");				
 			} else {
@@ -476,7 +544,7 @@ public class UI {
 		return;
 	}
 	
-	public void displayBuild (Player player, Site site, int numUnits) {
+	public void displayBuild (Player player, InvestmentProperty site, int numUnits) {
 		if (numUnits==1) {
 			infoPanel.displayString(player + " builds 1 unit on " + site + ".");			
 		} else {
@@ -485,7 +553,7 @@ public class UI {
 		return;
 	}
 	
-	public void displayDemolish (Player player, Site site, int numUnits) {
+	public void displayDemolish (Player player, InvestmentProperty site, int numUnits) {
 		if (numUnits==1) {
 			infoPanel.displayString(player + " demolishes 1 unit on " + site + ".");			
 		} else {
@@ -499,18 +567,18 @@ public class UI {
 		return;
 	}
 	
-	public void displayMortgage (Player player, Property property) {
-		infoPanel.displayString(player + " mortgages " + property + " for " + property.getMortgageValue() + CURRENCY + ".");
+	public void displayMortgage (Player player, PrivateProperty property) {
+		infoPanel.displayString(player + " mortgages " + property + " for " + property.getMortgageAmount() + CURRENCY + ".");
 		return;				
 	}
 	
-	public void displayMortgageRedemption (Player player, Property property) {
-		infoPanel.displayString(player + " redeems " + property + " for " + property.getMortgageRemptionPrice() + CURRENCY + ".");
+	public void displayMortgageRedemption (Player player, PrivateProperty property) {
+		infoPanel.displayString(player + " redeems " + property + " for " + property.getMortgagePrice() + CURRENCY + ".");
 		return;
 	}
 	
 	public void displayAssets (Player player) {
-		infoPanel.displayString(player + " has assets of " + player.getAssets() + CURRENCY + ".");
+		infoPanel.displayString(player + " has assets of " + player.getNetWorth() + CURRENCY + ".");
 		return;
 	}
 	
