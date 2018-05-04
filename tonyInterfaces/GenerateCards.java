@@ -1,3 +1,6 @@
+package tonyInterfaces;
+
+
 import java.util.HashSet;
 import java.util.Hashtable;
 import java.util.Random;
@@ -7,6 +10,8 @@ import java.util.Set;
 import java.util.Vector;
 @SuppressWarnings({"unused","rawtypes","unchecked"})
 public class GenerateCards {
+	private Domains domains = new Domains();
+	private Characters characters = new Characters(domains.getDomains());
 
 	private KnowledgeBaseModule NOC          ;
 
@@ -41,15 +46,18 @@ public class GenerateCards {
 
 	public GenerateCards()
 	{
+		//knowledgeDir = "/Users/abdulsalim/Desktop/mydesktop/The-NOC-List-master/NOC/DATA/TSV Lists/";
 		knowledgeDir = "C:\\Users\\robert\\Documents\\.Year 3_Part2\\software eng3\\noc\\TSV Lists\\";
-		//String knowledgeDir				 = null;   // directory where knowledge-base(s) can be found
+		
 		NOC           = new KnowledgeBaseModule(knowledgeDir + "Veale's The NOC List.txt", 0);
 		//	CATEGORIES    = new KnowledgeBaseModule(knowledgeDir + "Category Hierarchy.txt", 0);
-
+	//	CLOTHES       = new KnowledgeBaseModule(knowledgeDir + "Veale's clothing line.txt", 1);  // 1 is the column number of the key value
 		CLOTHES       = new KnowledgeBaseModule(knowledgeDir + "clothing line.txt", 1);  // 1 is the column number of the key value
 		//		CREATIONS     = new KnowledgeBaseModule(knowledgeDir + "Veale's creations.txt", 0);
 		//		DOMAINS       = new KnowledgeBaseModule(knowledgeDir + "Veale's domains.txt", 0);
 		//		WORLDS        = new KnowledgeBaseModule(knowledgeDir + "Veale's fictional worlds.txt", 0);
+		//VEHICLES      = new KnowledgeBaseModule(knowledgeDir + "Veale's vehicle fleet.txt", 1);  // 1 is the column number of the key value
+
 		VEHICLES      = new KnowledgeBaseModule(knowledgeDir + "vehicle fleet.txt", 1);  // 1 is the column number of the key value
 		//		WEAPONS	      = new KnowledgeBaseModule(knowledgeDir + "Veale's weapon arsenal.txt", 1);  // 1 is the column number of the key value
 		//		PLACES        = new KnowledgeBaseModule(knowledgeDir + "Veale's place elements.txt", 0);		
@@ -62,19 +70,19 @@ public class GenerateCards {
 		//		ALL_QUALITIES = NOC.getInvertedField("Positive Talking Points");
 		//		ALL_QUALITIES = NOC.getInvertedField("Negative Talking Points", ALL_QUALITIES);
 		//		
-		allPeople       = NOC.getAllFrames();
-
-		fictionalPeople = NOC.getAllKeysWithFieldValue("Fictive Status", "fictional");
-		realPeople      = NOC.difference(allPeople, fictionalPeople);
-
-		men			    = NOC.getAllKeysWithFieldValue("Gender", "male");
-		women			= NOC.getAllKeysWithFieldValue("Gender", "female");
-
-		allFields		= NOC.getFieldNames();
-
-		attributeFields = new Vector();
-		attributeFields.add("Negative Talking Points");
-		attributeFields.add("Positive Talking Points");	
+//		allPeople       = NOC.getAllFrames();
+//
+//		fictionalPeople = NOC.getAllKeysWithFieldValue("Fictive Status", "fictional");
+//		realPeople      = NOC.difference(allPeople, fictionalPeople);
+//
+//		men			    = NOC.getAllKeysWithFieldValue("Gender", "male");
+//		women			= NOC.getAllKeysWithFieldValue("Gender", "female");
+//
+//		allFields		= NOC.getFieldNames();
+//
+//		attributeFields = new Vector();
+//		attributeFields.add("Negative Talking Points");
+//		attributeFields.add("Positive Talking Points");	
 
 
 
@@ -84,14 +92,17 @@ public class GenerateCards {
 	// get to a new location in a snazzy vehicle															//
 	//-----------------------------------------------------------------------------------------------//
 	//-----------------------------------------------------------------------------------------------//
+	
 	public  String MovementCards(){
 		String outPut = null;
-		int i = new Random().nextInt(822);
+		String domain = getdomain();
+		String Character = getCharacter(domain);
+		
 		Vector ID = NOC.getAllFrames();
-		String Character =null;
+		
 		for (int e = 0; e < ID.size(); e++)
 		{
-			Character   = (String)ID.elementAt(i);
+			
 			String pronoun    = "he";
 			String possPro	  = "his";
 			if (NOC.hasFieldValue("Gender", Character, "female"))
@@ -112,7 +123,7 @@ public class GenerateCards {
 					String vehicle = (String)vehicles.elementAt(v);
 					String determiner = VEHICLES.getFirstValue("Determiner", vehicle);
 					String affordance = VEHICLES.getFirstValue("Affordances", vehicle);
-					comesAlong   = Character + " comes along "+ affordance +" "+determiner+" "+ vehicle +" and " +pronoun+ " brings you ";
+					comesAlong   = Character + " comes along "+ affordance +" "+determiner+" "+ vehicle +" and " +pronoun+ " brings you to";
 
 					outPut  = comesAlong;
 				}
@@ -154,7 +165,7 @@ public class GenerateCards {
 			}
 		
 
-		return outPut + Character;
+		return outPut;
 	}
 	//-----------------------------------------------------------------------------------------------//
 	//-----------------------------------------------------------------------------------------------//
@@ -171,7 +182,6 @@ public class GenerateCards {
 			Character = Heroism();
 			
 		}
-
 		String pronoun    = "he";
 		String possPro	  = "his";
 		if (NOC.hasFieldValue("Gender", Character, "female"))
@@ -361,147 +371,37 @@ public class GenerateCards {
 		output = "You are taken down by " + Character +" for "+ crime  +" with "+ nemesis;
 		return  output;
 	}
-//	public String quiz() {
-//		Vector ID = NOC.getAllFrames();
-//		String Character =null;
-//		int i = new Random().nextInt(822);
-//		for (int e = 0; e < ID.size(); e++)
-//		{
-//			Character   = (String)ID.elementAt(i);//509
-//		}
-//		String outfit= getClothingEnsemble(Character);
-//		Vector gender = NOC.getFieldValues("Gender", Character);
-//		String Gender = (String)gender.elementAt(0);
-//		String action = getA(Character);
-//
-//		System.out.println(" " + Character);
-//		System.out.println("you are approached by a "+Gender +" wearing " + outfit + " talking about " +action  );
-//		System.out.println("who is it?");
-//		Scanner scan = new Scanner(System.in);
-//		String Answer = scan.nextLine();
-//
-//
-//		if(Answer.equalsIgnoreCase(Character)) {
-//			System.out.println("correct you have won money");
-//		}else
-//		{System.out.println("wrong");
-//
-//		}
-//
-//		;
-//		return ("It is "+Character );
-//	}
-//	private String getA(String Character){
-//		Vector actions    = NOC.getFieldValues("Typical Activity", Character);
-//
-//		String Activity = null;
-//		if (actions == null ){
-//
-//			Activity = "you are doing in particular";
-//		}else
-//
-//			for (int a = 0; a < actions.size(); a++)
-//			{
-//				String action = (String)actions.elementAt(a);
-//
-//				Activity   = "" + action + ".";
-//			}
-//		return Activity;
-//	}
-//	private String getClothingEnsemble(String person)
-//	{
-//		Vector ensembles = getClothingEnsembles(person);
-//
-//		if (ensembles == null || ensembles.size() == 0)
-//			return "nothing in particular";
-//
-//		if (ensembles.size() == 1)
-//			return (String)ensembles.elementAt(0);
-//
-//		return (String)ensembles.elementAt(new Random().nextInt(ensembles.size()));
-//	}
-//	private Vector getClothingEnsembles(String person)
-//	{
-//		Vector clothes = NOC.getFieldValues("Seen Wearing", person);
-//		if (clothes == null || clothes.size() == 0) 
-//			return null;
-//
-//		Vector ensembles = new Vector();
-//
-//		if (clothes.size() == 1)
-//			ensembles.add(quantifyClothing((String)clothes.elementAt(0)));
-//
-//
-//		for (int i = 0; i < clothes.size(); i++)
-//		{
-//			String item1 = (String)clothes.elementAt(i);
-//
-//			for (int j = 0; j < clothes.size(); j++)
-//			{
-//				if (i == j) continue;
-//
-//				String item2 = (String)clothes.elementAt(j);
-//
-//				Vector overlap = NOC.intersect(CLOTHES.getFieldValues("Covers", item1), CLOTHES.getFieldValues("Covers", item2));
-//
-//				if (overlap == null || overlap.size() == 0)
-//					ensembles.add(quantifyClothing(item1) + " and " + quantifyClothing(item2));
-//			}
-//		}
-//
-//		return ensembles;
-//	}
-//	private String quantifyClothing(String clothing)
-//	{
-//		String det = CLOTHES.getFirstValue("Determiner", clothing);
-//
-//		if (det == null)
-//			return clothing;
-//		else
-//			return det + " " + clothing;
-//	}
-//	public String gamble() {
-//		String output = null;
-//		Vector ID = NOC.getAllFrames();
-//		String Character =null;
-//		int i = new Random().nextInt(822);
-//		for (int e = 0; e < ID.size(); e++)
-//		{
-//			Character   = (String)ID.elementAt(i);//509
-//		}
-//		Vector Weapon = NOC.getFieldValues("Weapon of Choice", Character);
-//		String weapon = (String)Weapon.elementAt(0);
-//		Vector gender = NOC.getFieldValues("Gender", Character);
-//		String Gender = (String)gender.elementAt(0);
-//		String action = getA(Character);
-//
-//		System.out.println(" " + Character);
-//		System.out.println("you are approached by "+Character+" Weilding " + weapon + " talking about " +action );
-//		System.out.println("do you wish to fight them");
-//		Scanner scan = new Scanner(System.in);
-//		String Answer = scan.nextLine();
-//		if(Answer.equalsIgnoreCase("yes")) {
-//			output = ("you have chosen to fight");
-//		}else
-//		{output = ("you have chosen to run");
-//
-//		}
-//
-//		return output;
-//
-//	}
+	public String getdomain() {
+		int i = new Random().nextInt(5);
+		String domain = (domains.getDomain(0));
+		return domain ;
+		
+		
+	}
+	public String getCharacter(String doamin) {
+		Person p = characters.getRandomPersonFromDomain(doamin);
+		String Character = ""+p;
+		return Character;
+		
+	}
+
 	public static void main(String[] args)
 	{//TESTS
+		//System.out.println(characters);
 		GenerateCards pan = new GenerateCards();
 		//for (int i=0; i<500;i++) //run i# of times
-			//	System.out.println(pan.MovementCards());
+		//System.out.println(pan.MovementCards());
 		//System.out.println(pan.PoliticalCard());
-					System.out.println(pan.goToJail());
-			//	System.out.println(pan.RewardCard());
-			//				System.out.println(pan.fineCard() +"  "+ i);
-			//		System.out.println(pan.GetOutOfJaillCard());
-			//		System.out.println(pan.quiz());
-			//		System.out.println(pan.gamble());
+		//	System.out.println(pan.goToJail());
+		//System.out.println(pan.RewardCard());
+		//System.out.println(pan.fineCard() );
+		//		System.out.println(pan.GetOutOfJaillCard());
+		//		System.out.println(pan.quiz());
+		//		System.out.println(pan.gamble());
+		//System.out.println(pan.characters);
+		//		String name = (pan.domains);
+		//					System.out.println(name);
+		//					System.out.println(pan.characters.getRandomPersonFromDomain(name));
 	}
 
 }
