@@ -1,6 +1,4 @@
-import panopoly.GenerateCards;
-import panopoly.GenerateCards;
-
+package tonyInterfaces;
 public class CommunityChestDeck extends CardDeck {
 	GenerateCards pan =  new GenerateCards();
 	public static final int COMMUNITY_CHEST = 1;
@@ -8,8 +6,8 @@ public class CommunityChestDeck extends CardDeck {
 		
 
 		// Movement
-		cards.add(new Card(COMMUNITY_CHEST,"Advance to Go."+pan.MovementCards()+"forword to",ACT_GO_FORWARD,Board.POS_GO));
-		cards.add(new Card(COMMUNITY_CHEST,pan.MovementCards()+ "back to",ACT_GO_BACKWARD,Board.POS_OLD_KENT_RD));
+		cards.add(new Card(COMMUNITY_CHEST,"Advance to Go."+pan.MovementCards()+"forword to",ACT_GO_FORWARD,WorldBuilder.POS_GO));
+		cards.add(new Card(COMMUNITY_CHEST,pan.MovementCards()+ "back to",ACT_GO_BACKWARD,WorldBuilder.POS_OLD_KENT_RD));
 
 		// Taxes, Fines, etc.
 		cards.add(new Card(COMMUNITY_CHEST,pan.fineCard()+" Pay fine of" +  UI.CURRENCY_SYMBOL + "100.",ACT_PAY,100));
@@ -30,7 +28,7 @@ public class CommunityChestDeck extends CardDeck {
 		// Jail
 		cards.add(new Card(COMMUNITY_CHEST,pan.goToJail()+"Go to jail. Move directly to jail. Do not pass Go. Do not collect " + UI.CURRENCY_SYMBOL + "200.",ACT_GOTO_JAIL));
 		cards.add(new Card(COMMUNITY_CHEST,pan.GetOutOfJaillCard()+". This card may be kept until needed or sold",ACT_GET_OUT_OF_JAIL));
-		
+		shuffle();
 		return;
 	}
 
