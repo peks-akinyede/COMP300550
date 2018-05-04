@@ -22,7 +22,7 @@ public class Person {
 	}
 	
 	public String toString () {
-		return name + " is a " + gender + " lives at " + address + " from domain: " + domain;
+		return name;// + " is a " + gender + " lives at " + address + " from domain: " + domain;
 	}
 	
 	
