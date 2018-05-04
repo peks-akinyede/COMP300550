@@ -12,7 +12,8 @@ public class Characters {
 	public Characters(Vector<String> domains){
 		
 		
-		String kdir = "C:\\Users\\Pekun\\OneDrive - University College Dublin\\School Stuff\\Stage 3\\The-NOC-List-master\\NOC\\DATA\\TSV Lists\\";
+		//String kdir =  "/Users/abdulsalim/Desktop/mydesktop/The-NOC-List-master/NOC/DATA/TSV Lists/";
+		String kdir =  "C:\\Users\\robert\\Documents\\.Year 3_Part2\\software eng3\\noc\\TSV Lists\\";
 		KnowledgeBaseModule n          = new KnowledgeBaseModule(kdir + "Veale's The NOC List.txt");
 		
 		//Go through domains and populate characters
