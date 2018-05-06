@@ -375,7 +375,7 @@ public class GenerateCards {
 	}
 	public String getCharacter(String doamin) {
 		Person p = characters.getRandomPersonFromDomain(doamin);
-		String Character = ""+p;
+		String Character = ""+p.getName();
 		return Character;
 		
 	}
