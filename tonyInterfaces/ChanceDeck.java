@@ -16,7 +16,7 @@ public class ChanceDeck extends CardDeck {
 		
 		// Fines
 		cards.add(new Card(CHANCE_CARD,pan.fineCard()+ " For each house pay " + UI.CURRENCY_SYMBOL + "25. For each hotel pay " + UI.CURRENCY_SYMBOL + "100.",ACT_PAY_HOUSES,new int[] {25,100}));
-		cards.add(new Card(CHANCE_CARD,pan.fineCard()+ " Pay: " + UI.CURRENCY_SYMBOL + " 40 per house, " + UI.CURRENCY_SYMBOL + "115 per hotel.",ACT_PAY_HOUSES,new int[] {40,115}));
+		cards.add(new Card(CHANCE_CARD,pan.PoliticalCard()+ " Pay: " + UI.CURRENCY_SYMBOL + " 40 per house, " + UI.CURRENCY_SYMBOL + "115 per hotel.",ACT_PAY_HOUSES,new int[] {40,115}));
 		cards.add(new Card(CHANCE_CARD,pan.fineCard()+ " Send large donation to charity to show you're really really sorry :-) " + UI.CURRENCY_SYMBOL + "150.",ACT_PAY,150));
 		cards.add(new Card(CHANCE_CARD, pan.intoxicated() + " Pay UI.CURRENCY_SYMBOL" + " 20.",ACT_PAY,20));
 		cards.add(new Card(CHANCE_CARD,"Speeding fine. " + UI.CURRENCY_SYMBOL + "15.",ACT_PAY,15));
