@@ -6,14 +6,13 @@ public class CommunityChestDeck extends CardDeck {
 		
 
 		// Movement
-		cards.add(new Card(COMMUNITY_CHEST,"Advance to Go."+pan.MovementCards()+"forword to",ACT_GO_FORWARD,WorldBuilder.POS_GO));
+		cards.add(new Card(COMMUNITY_CHEST,pan.MovementCards()+"Forword to Go",ACT_GO_FORWARD,WorldBuilder.POS_GO));
 		cards.add(new Card(COMMUNITY_CHEST,pan.MovementCards()+ "back to",ACT_GO_BACKWARD,WorldBuilder.POS_OLD_KENT_RD));
 
 		// Taxes, Fines, etc.
 		cards.add(new Card(COMMUNITY_CHEST,pan.fineCard()+" Pay fine of" +  UI.CURRENCY_SYMBOL + "100.",ACT_PAY,100));
 		cards.add(new Card(COMMUNITY_CHEST,pan.fineCard()+" Pay fine of" + UI.CURRENCY_SYMBOL + "50.",ACT_PAY,50));
 		cards.add(new Card(COMMUNITY_CHEST,pan.fineCard()+" Pay fine of" + UI.CURRENCY_SYMBOL + "50.",ACT_PAY,50));
-		cards.add(new Card(COMMUNITY_CHEST,"Pay a  " + UI.CURRENCY_SYMBOL + "10 fine or take a Chance.",ACT_PAY_OR_CHANCE,10));
 
 		// Receipts
 		cards.add(new Card(COMMUNITY_CHEST,pan.RewardCard() + UI.CURRENCY_SYMBOL + "200.",ACT_RECEIVE,200));
@@ -33,3 +32,4 @@ public class CommunityChestDeck extends CardDeck {
 	}
 
 }
+
