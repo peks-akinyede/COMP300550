@@ -22,7 +22,7 @@ public class CommunityChestDeck extends CardDeck {
 		cards.add(new Card(COMMUNITY_CHEST,pan.RewardCard() + UI.CURRENCY_SYMBOL + "25.",ACT_RECEIVE,25));
 		cards.add(new Card(COMMUNITY_CHEST,pan.RewardCard() + UI.CURRENCY_SYMBOL + "20.",ACT_RECEIVE,20));
 		cards.add(new Card(COMMUNITY_CHEST,pan.RewardCard() + UI.CURRENCY_SYMBOL + "10.",ACT_RECEIVE,10));
-		cards.add(new Card(COMMUNITY_CHEST,pan.RewardCard() + UI.CURRENCY_SYMBOL + "10 from each player",ACT_GIFTS,10));
+		cards.add(new Card(COMMUNITY_CHEST,pan.RewardCard() + " the opportunity to collect " + UI.CURRENCY_SYMBOL + "10 from each player",ACT_GIFTS,10));
 
 		// Jail
 		cards.add(new Card(COMMUNITY_CHEST,pan.goToJail()+" Go to jail. Move directly to jail. Do not pass Go. Do not collect " + UI.CURRENCY_SYMBOL + "200.",ACT_GOTO_JAIL));
