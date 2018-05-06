@@ -98,7 +98,8 @@ public class GenerateCards {
 					String vehicle = (String)vehicles.elementAt(v);
 					String determiner = VEHICLES.getFirstValue("Determiner", vehicle);
 					String affordance = VEHICLES.getFirstValue("Affordances", vehicle);
-					comesAlong   = Character + " comes along "+ affordance +" "+determiner+" "+ vehicle +" and " +pronoun+ " brings you to";
+					comesAlong   = "You're going on an adventure. "+ Character + " comes along "+ affordance +" "+determiner+" "+ vehicle +" and " +pronoun+ " says get in.";
+
 
 					outPut  = comesAlong;
 				}
@@ -346,9 +347,28 @@ public class GenerateCards {
 		output = "You are taken down by " + Character +" for "+ crime  +" with "+ nemesis;
 		return  output;
 	}
+	public  String intoxicated(){
+		String Character = null;
+		String output = null;
+		Vector drink = NOC.getAllKeysWithFieldValue("Negative Talking Points", "alcoholic");
+		Vector drugs = NOC.getAllKeysWithFieldValue("Negative Talking Points", "drug-addled");
+		Set<String> set = new HashSet<>(drink);
+		set.addAll(drugs);
+		Vector<String> addicts = new Vector<>(set);
+
+		int rnd = new Random().nextInt(addicts.size());
+		for (int e = 0; e < addicts.size(); e++)
+		{
+			Character   = (String)addicts.elementAt(rnd);
+		}
+		
+		output = "You get twisted on a night out with " +Character+ " and slapped with a fine for public intoxication. ";
+		
+		return output;
+	}
 	public String getdomain() {
-		int i = new Random().nextInt(5);
-		String domain = (domains.getDomain(0));
+		int i = new Random().nextInt(7);
+		String domain = (domains.getDomain(i));
 		return domain ;
 		
 		
