@@ -1,4 +1,4 @@
-import panopoly.GenerateCards;
+package tonyInterfaces;
 
 public class ChanceDeck extends CardDeck {
 	
@@ -7,18 +7,18 @@ public class ChanceDeck extends CardDeck {
 	ChanceDeck () {
 
 		// Movement
-		cards.add(new Card(CHANCE_CARD,"Advance to Go." + pan.MovementCards(),ACT_GO_FORWARD,Board.POS_GO));
-		cards.add(new Card(CHANCE_CARD,pan.MovementCards()+"Pall Mall. If you pass Go collect " + UI.CURRENCY_SYMBOL + "200.",ACT_GO_FORWARD,Board.POS_PALL_MALL));
-		cards.add(new Card(CHANCE_CARD,pan.MovementCards() + " to Marylebone Station and if you pass Go collect " + UI.CURRENCY_SYMBOL + "200.",ACT_GO_FORWARD,Board.POS_MARYLEBONE_STATION));
-		cards.add(new Card(CHANCE_CARD,pan.MovementCards()+ " Trafalgar Square. If you pass Go collect " + UI.CURRENCY_SYMBOL + "200.",ACT_GO_FORWARD,Board.POS_TRAFALGAR_SQ));
-		cards.add(new Card(CHANCE_CARD,pan.MovementCards() + "Mayfair. If you pass Go collect " + UI.CURRENCY_SYMBOL + "200.",ACT_GO_FORWARD,Board.POS_MAYFAIR));
-		cards.add(new Card(CHANCE_CARD,pan.MovementCards() + "Go back three sqaures",ACT_MOVE,-3	));
+		cards.add(new Card(CHANCE_CARD,pan.MovementCards()+ " You've advanced to Go " ,ACT_GO_FORWARD,WorldBuilder.POS_GO));
+		cards.add(new Card(CHANCE_CARD,pan.MovementCards()+" If you pass Go collect " + UI.CURRENCY_SYMBOL + "200.",ACT_GO_FORWARD,WorldBuilder.POS_PALL_MALL));
+		cards.add(new Card(CHANCE_CARD,pan.MovementCards() + " if you pass Go collect " + UI.CURRENCY_SYMBOL + "200.",ACT_GO_FORWARD,WorldBuilder.POS_MARYLEBONE_STATION));
+		cards.add(new Card(CHANCE_CARD,pan.MovementCards()+ " If you pass Go collect " + UI.CURRENCY_SYMBOL + "200.",ACT_GO_FORWARD,WorldBuilder.POS_TRAFALGAR_SQ));
+		cards.add(new Card(CHANCE_CARD,pan.MovementCards() + " If you pass Go collect " + UI.CURRENCY_SYMBOL + "200.",ACT_GO_FORWARD,WorldBuilder.POS_MAYFAIR));
+		cards.add(new Card(CHANCE_CARD,pan.MovementCards() + " back three sqaures",ACT_MOVE,-3	));
 		
 		// Fines
 		cards.add(new Card(CHANCE_CARD,pan.fineCard()+ " For each house pay " + UI.CURRENCY_SYMBOL + "25. For each hotel pay " + UI.CURRENCY_SYMBOL + "100.",ACT_PAY_HOUSES,new int[] {25,100}));
-		cards.add(new Card(CHANCE_CARD,pan.fineCard()+ "Pay: " + UI.CURRENCY_SYMBOL + " 40 per house, " + UI.CURRENCY_SYMBOL + "115 per hotel.",ACT_PAY_HOUSES,new int[] {40,115}));
-		cards.add(new Card(CHANCE_CARD,pan.fineCard()+ "Pay school fees of " + UI.CURRENCY_SYMBOL + "150.",ACT_PAY,150));
-		cards.add(new Card(CHANCE_CARD,"Drunk in charge fine. " + UI.CURRENCY_SYMBOL + "20.",ACT_PAY,20));
+		cards.add(new Card(CHANCE_CARD,pan.fineCard()+ " Pay: " + UI.CURRENCY_SYMBOL + " 40 per house, " + UI.CURRENCY_SYMBOL + "115 per hotel.",ACT_PAY_HOUSES,new int[] {40,115}));
+		cards.add(new Card(CHANCE_CARD,pan.fineCard()+ " Send large donation to charity to show you're really really sorry :-) " + UI.CURRENCY_SYMBOL + "150.",ACT_PAY,150));
+		cards.add(new Card(CHANCE_CARD, pan.intoxicated() + " Pay UI.CURRENCY_SYMBOL" + " 20.",ACT_PAY,20));
 		cards.add(new Card(CHANCE_CARD,"Speeding fine. " + UI.CURRENCY_SYMBOL + "15.",ACT_PAY,15));
 		
 		// Payments
@@ -33,6 +33,9 @@ public class ChanceDeck extends CardDeck {
 		shuffle();
 		
 		return;
+	}
+	public static void main (String args[]) {	
+		System.out.println(CHANCE_CARD);
 	}
 
 }
