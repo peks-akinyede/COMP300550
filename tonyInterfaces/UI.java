@@ -15,7 +15,7 @@ public class UI {
 	private static final int FRAME_WIDTH = 1150;
 	private static final int FRAME_HEIGHT = 700;
 
-	public static final String CURRENCY = " pounds";
+	public static final String CURRENCY = " euros";
 	public static final String CURRENCY_SYMBOL = "€";
 
 	public static final int CMD_QUIT = 0;
@@ -261,7 +261,7 @@ public class UI {
 			if(player.isBot()){
 				string = bots[player.getBotNumber()].getCommand();
 			}
-			else{
+			else{				
 				commandPanel.inputString();
 				string = commandPanel.getString();
 			}
@@ -405,6 +405,7 @@ public class UI {
 			}
 			if (!inputValid) {
 				displayError(ERR_SYNTAX);
+				displayCommandHelp ();
 			}
 		} while (!inputValid);
 		if (commandId == CMD_DONE) {
@@ -524,7 +525,7 @@ public class UI {
 	}
 
 	public void displayCommandHelp () {
-		infoPanel.displayString("Available commands: roll, buy, pay rent, build, demolish, mortgage, redeem, bankrupt, property, balance, done, quit. ");
+		infoPanel.displayString("Available commands: roll, buy, help, build, demolish, mortgage, redeem, bankrupt, property, balance, done, quit. ");
 		infoPanel.displayString("Available commands in jail: roll, card, pay. ");
 		return;
 	}

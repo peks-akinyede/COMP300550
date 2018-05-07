@@ -191,15 +191,15 @@ public class GenerateCards {
 			String determiner = VEHICLES.getFirstValue("Determiner", vehicle);
 			String affordance = VEHICLES.getFirstValue("Affordances", vehicle);
 			if (affordance == null && determiner == null) {
-				comesAlong   = Character + " comes along "+ " via "+ possPro+ " "+vehicle +" and " +pronoun+ " says get in.";
+				comesAlong   = Character + " comes along "+ " via "+ possPro+ " "+vehicle +" and " +pronoun+ "  gives you ";
 			}
 			else if (affordance == null) {
-				comesAlong   =  Character + " comes along "+ " via "+ determiner+ " "+vehicle +" and " +pronoun+ " says get in.";
+				comesAlong   =  Character + " comes along "+ " via "+ determiner+ " "+vehicle +" and " +pronoun+ "  gives you ";
 			}
 			else if (determiner == null) {
-				comesAlong   =  Character + " comes along "+ affordance +" the "+ vehicle +" and " +pronoun+ " says get in.";
+				comesAlong   =  Character + " comes along "+ affordance +" the "+ vehicle +" and " +pronoun+ "  gives you ";
 			}else {
-				comesAlong   = Character + " comes along "+ affordance +" "+determiner+" "+ vehicle +" and " +pronoun+ " says get in.";
+				comesAlong   = Character + " comes along "+ affordance +" "+determiner+" "+ vehicle +" and " +pronoun+ "  gives you ";
 			}
 			outPut  = Activity + " " + comesAlong;
 			}
