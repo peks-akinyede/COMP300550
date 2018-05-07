@@ -12,7 +12,6 @@ public class InfoPanel extends JPanel {
 	private static final int FONT_SIZE = 14;
 
 	JTextArea textArea = new JTextArea(TEXT_AREA_HEIGHT, CHARACTER_WIDTH);
-//	JTextArea textArea = new JTextArea();
 	JScrollPane scrollPane = new JScrollPane(textArea);
 	DefaultCaret caret = (DefaultCaret)textArea.getCaret();
 	

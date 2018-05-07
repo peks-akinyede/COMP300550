@@ -37,8 +37,7 @@ public class WorldBuilder implements BoardAPI {
 
 				
 		String domain = domains.getDomain(0);
-		
-		//Change updateLocations maybe?
+	
 		Vector<String> locations = characters.getRandomLocationsFromDomain(domain, 2, all_locations);//The first color group has 2 properties
 		updateLocations(locations);
 		squares[0] = new NamedLocation("Go", null, null);
@@ -154,14 +153,6 @@ public class WorldBuilder implements BoardAPI {
 	public Characters getCharacters(){
 		return characters;
 	}
-	
-//	public static void main(String[] args)
-//	{
-//		Dice dice = new Dice();
-//		
-//		WorldBuilder m = new WorldBuilder(dice);
-//		
-//	}
 
 	public String getCharacter(int number){
 		String domain = domains.getDomain(number);

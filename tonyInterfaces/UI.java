@@ -97,7 +97,7 @@ public class UI {
 	private Player inputPlayer;
 	private boolean inputWasPay;
 	private Bot[] bots;
-	
+
 
 
 
@@ -121,21 +121,11 @@ public class UI {
 		boardPanel.setBounds(0, 0, 700, 680);
 		namePane.add(boardnames, new Integer(2));
 		boardnames.setBounds(0,0,700,680);
-
-
 		frame.add(namePane, BorderLayout.CENTER);
-
-		JSplitPane splitPane = new JSplitPane(JSplitPane.VERTICAL_SPLIT,
-				infoPanel, commandPanel);
-		//JSplitPane splitPane2 = new JSplitPane(JSplitPane.VERTICAL_SPLIT,
-		//splitPane, scoreBoardPanel);
+		JSplitPane splitPane = new JSplitPane(JSplitPane.VERTICAL_SPLIT,infoPanel, commandPanel);
 		splitPane.setDividerSize(1);
-		//splitPane2.setDividerSize(1);
 		splitPane.setResizeWeight(0.95); 
-
-
 		frame.add(splitPane, BorderLayout.EAST);
-
 		frame.setResizable(false);
 		frame.setVisible(true);
 	}
@@ -169,23 +159,6 @@ public class UI {
 		} while (!inputValid);
 
 		return inputNumber;
-	}
-
-	public void inputNameBots (int numPlayer) {
-		if (numPlayer == 0) {
-			infoPanel.displayString("Enter new player name (" + boardPanel.getTokenName(numPlayer) + "):");			
-		} else {
-			infoPanel.displayString("Enter new player name (" + boardPanel.getTokenName(numPlayer)  +  ") or done:");
-		}
-		if (numPlayer < Monopoly.NUM_PLAYERS) {
-			string = bots[numPlayer].getName();
-			done = false;
-		} else if (numPlayer == Monopoly.NUM_PLAYERS) {
-			string = "DONE";
-			done = true;
-		}
-		infoPanel.displayString("> " + string);
-		return;
 	}
 
 
@@ -260,7 +233,7 @@ public class UI {
 			}
 
 			infoPanel.displayString("> " + string);
-			
+
 			if (!inputValid) {
 				displayError(ERR_SYNTAX);
 			}
@@ -283,13 +256,9 @@ public class UI {
 	public void inputCommand (Player player) {
 		boolean inputValid = false;
 		do {
-			
-			
+
 			infoPanel.displayString(player + " type your command:");
-			
-			
 			if(player.isBot()){
-				System.out.println("person chosen for input is " +player.getBotNumber()+ " "+ player.getIdentifier());
 				string = bots[player.getBotNumber()].getCommand();
 			}
 			else{

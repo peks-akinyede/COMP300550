@@ -81,7 +81,6 @@ public class lagosBoys implements Bot {
 
 
 			for (Utility utility: playerUtilities) {
-//				System.out.println(!utility.isMortgaged()+" lago");
 				if(!utility.isMortgaged()){
 					command = "mortgage";
 					return command + " " + utility.getIdentifier();
@@ -94,7 +93,6 @@ public class lagosBoys implements Bot {
 			if(player.getBalance() < 0 || player.getBalance()<100){
 
 				for (InvestmentProperty site: playerSites) {
-//					System.out.println(!site.isMortgaged()+" lago");
 					if(!site.isMortgaged() && !isFrequentlyLandedOn(site)){
 
 						while(site.canDemolish(1) && player.getBalance()<100){

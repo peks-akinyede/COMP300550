@@ -39,17 +39,17 @@ public class GenerateCards {
 	private Hashtable ALL_QUALITIES 		 = null;
 	private Vector attributeFields 			 = null;
 	private Vector allFields	 			 = null;
-	
+
 
 
 
 	public GenerateCards()
 	{
-		
+
 		NOC           = new KnowledgeBaseModule("Veale's The NOC List.txt", 0);
-		
+
 		CLOTHES       = new KnowledgeBaseModule("Veale's clothing line.txt", 1);  // 1 is the column number of the key value
-		
+
 		VEHICLES      = new KnowledgeBaseModule("Veale's vehicle fleet.txt", 1);  // 1 is the column number of the key value
 
 
@@ -60,17 +60,17 @@ public class GenerateCards {
 	// get to a new location in a snazzy vehicle															//
 	//-----------------------------------------------------------------------------------------------//
 	//-----------------------------------------------------------------------------------------------//
-	
+
 	public  String MovementCards(){
 		String outPut = null;
 		String domain = getdomain();
 		String Character = getCharacter(domain);
-		
+
 		Vector ID = NOC.getAllFrames();
-		
+
 		for (int e = 0; e < ID.size(); e++)
 		{
-			
+
 			String pronoun    = "he";
 			String possPro	  = "his";
 			if (NOC.hasFieldValue("Gender", Character, "female"))
@@ -100,7 +100,7 @@ public class GenerateCards {
 					else if (determiner == null) {
 						comesAlong   = "You're going on an adventure. "+ Character + " comes along "+ affordance +" "+ vehicle +" and " +pronoun+ " says get in.";
 					}else {
-					comesAlong   = "You're going on an adventure. "+ Character + " comes along "+ affordance +" "+determiner+" "+ vehicle +" and " +pronoun+ " says get in.";
+						comesAlong   = "You're going on an adventure. "+ Character + " comes along "+ affordance +" "+determiner+" "+ vehicle +" and " +pronoun+ " says get in.";
 					}
 
 					outPut  = comesAlong;
@@ -141,7 +141,7 @@ public class GenerateCards {
 				Activity   = "You have been caught " + action + " with "+Character+ ".";
 				outPut = Activity;
 			}
-		
+
 
 		return outPut;
 	}
@@ -158,7 +158,7 @@ public class GenerateCards {
 			Character = EvilDoing();
 		}else {
 			Character = Heroism();
-			
+
 		}
 		String pronoun    = "he";
 		String possPro	  = "his";
@@ -199,9 +199,9 @@ public class GenerateCards {
 			else if (determiner == null) {
 				comesAlong   =  Character + " comes along "+ affordance +" the "+ vehicle +" and " +pronoun+ " says get in.";
 			}else {
-			comesAlong   = Character + " comes along "+ affordance +" "+determiner+" "+ vehicle +" and " +pronoun+ " says get in.";
+				comesAlong   = Character + " comes along "+ affordance +" "+determiner+" "+ vehicle +" and " +pronoun+ " says get in.";
 			}
-				outPut  = Activity + " " + comesAlong;
+			outPut  = Activity + " " + comesAlong;
 			}
 		}
 
@@ -251,12 +251,12 @@ public class GenerateCards {
 		}
 		return Character;
 	}
-	
-	    //-----------------------------------------------------------------------------------------------//
-		//-----------------------------------------------------------------------------------------------//
-		// getting screwed over by politicians
-		//-----------------------------------------------------------------------------------------------//
-		//-----------------------------------------------------------------------------------------------//
+
+	//-----------------------------------------------------------------------------------------------//
+	//-----------------------------------------------------------------------------------------------//
+	// getting screwed over by politicians
+	//-----------------------------------------------------------------------------------------------//
+	//-----------------------------------------------------------------------------------------------//
 	public  String PoliticalCard(){
 		String Character = null;
 		String output = null;
@@ -276,14 +276,14 @@ public class GenerateCards {
 			possPro = "her";
 		}
 		output = "You get on the wrong side of " +Character+ " " + pronoun+ " slaps you with a bill for street repairs. ";
-		
+
 		return output;
 	}
-			//-----------------------------------------------------------------------------------------------//
-			//-----------------------------------------------------------------------------------------------//
-			// get out of jail courtesy of Snake															//
-			//-----------------------------------------------------------------------------------------------//
-			//-----------------------------------------------------------------------------------------------//
+	//-----------------------------------------------------------------------------------------------//
+	//-----------------------------------------------------------------------------------------------//
+	// get out of jail courtesy of Snake															//
+	//-----------------------------------------------------------------------------------------------//
+	//-----------------------------------------------------------------------------------------------//
 
 	public String GetOutOfJaillCard(){
 		String Activity =null;
@@ -320,9 +320,9 @@ public class GenerateCards {
 		String Character = (String)Heros.get(rnd);
 		Vector enemy = NOC.getFieldValues("Opponent", Character );
 		if(enemy == null) { 
-			
+
 			nemesis = EvilDoing();
-					
+
 
 		}else
 			try {
@@ -357,6 +357,7 @@ public class GenerateCards {
 		output = "You are taken down by " + Character +" for "+ crime  +" with "+ nemesis;
 		return  output;
 	}
+
 	public  String intoxicated(){
 		String Character = null;
 		String output = null;
@@ -371,37 +372,23 @@ public class GenerateCards {
 		{
 			Character   = (String)addicts.elementAt(rnd);
 		}
-		
+
 		output = "You get twisted on a night out with " +Character+ " and slapped with a fine for public intoxication. ";
-		
+
 		return output;
 	}
 	public String getdomain() {
 		int i = new Random().nextInt(7);
 		String domain = (domains.getDomain(i));
 		return domain ;
-		
-		
+
+
 	}
 	public String getCharacter(String doamin) {
 		Person p = characters.getRandomPersonFromDomain(doamin);
 		String Character = ""+p.getName();
 		return Character;
-		
-	}
 
-	public static void main(String[] args)
-	{//TESTS
-		//System.out.println(characters);
-		GenerateCards pan = new GenerateCards();
-		//for (int i=0; i<500;i++) //run i# of times
-		//System.out.println(pan.MovementCards());
-		//System.out.println(pan.PoliticalCard());
-		//	System.out.println(pan.goToJail());
-		//System.out.println(pan.RewardCard());
-		//System.out.println(pan.fineCard() );
-		//		System.out.println(pan.GetOutOfJaillCard());
-				
 	}
 
 }

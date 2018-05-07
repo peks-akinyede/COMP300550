@@ -4,7 +4,7 @@ public class Main {
 
 	public static void main (String args[]) {	
 		Monopoly monopoly = new Monopoly(args);		
-		monopoly.inputNames();
+		monopoly.inputNamesPlayers();
 		monopoly.giveStartMoney();
 		monopoly.decideStarter();
 		do {

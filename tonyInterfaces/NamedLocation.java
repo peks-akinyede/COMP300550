@@ -39,43 +39,6 @@ public class NamedLocation implements Identifiable, Locatable {
 	}
 	
 	public boolean equals (String string) {
-		
-//		boolean answer = true;
-//		String[] words = name.split(" ");
-//		String[] prop = string.split(" ");
-//		
-////		System.out.println("words(prop name) is: ");
-////		
-////		for(int i=0;i<words.length;i++){
-////			System.out.print(words[i]+ " ");
-////		}
-////		
-////		System.out.println("with lenght " + words.length);
-////		
-////		
-////		System.out.println("words(to build name) is: ");
-////		
-////		for(int i=0;i<prop.length;i++){
-////			System.out.print(prop[i]+ " ");
-////		}
-////		
-////		System.out.println("with lenght " + prop.length);
-//		
-//		
-//		if(prop.length != words.length){
-//			return false;
-//		}
-//		
-//		
-//		if(prop.length>1){
-//			for(int i=0;i<prop.length && i < words.length;i++){
-//				if(!prop[i].equalsIgnoreCase(words[i])){
-//					return false;
-//				}
-//			}
-//		}else{
-//			answer = name.equalsIgnoreCase(string);
-//		}
 		return name.equalsIgnoreCase(string);
 	}
 	

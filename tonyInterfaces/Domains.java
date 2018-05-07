@@ -41,10 +41,4 @@ public class Domains {
 		return domains.toString();
 	}
 	
-	public static void main(String[] args)
-	{
-		Domains d = new Domains();
-		System.out.println(d);
-	}
-	
 }

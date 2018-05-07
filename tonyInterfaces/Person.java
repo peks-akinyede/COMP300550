@@ -1,7 +1,6 @@
 package tonyInterfaces;
 
 public class Person {
-
 	
 	private String name, gender, address, domain, vehicle;
 	
