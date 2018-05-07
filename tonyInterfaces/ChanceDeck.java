@@ -12,7 +12,7 @@ public class ChanceDeck extends CardDeck {
 		cards.add(new Card(CHANCE_CARD,pan.MovementCards() ,ACT_GO_FORWARD,WorldBuilder.POS_MARYLEBONE_STATION));
 		cards.add(new Card(CHANCE_CARD,pan.MovementCards(),ACT_GO_FORWARD,WorldBuilder.POS_TRAFALGAR_SQ));
 		cards.add(new Card(CHANCE_CARD,pan.MovementCards() ,ACT_GO_FORWARD,WorldBuilder.POS_MAYFAIR));
-		cards.add(new Card(CHANCE_CARD,pan.MovementCards() + " back to",ACT_MOVE,-3	));
+		cards.add(new Card(CHANCE_CARD,pan.MovementCards() + " You both arrive at:",ACT_MOVE,-3	));
 		
 		// Fines
 		cards.add(new Card(CHANCE_CARD,pan.fineCard()+ " For each house pay " + UI.CURRENCY_SYMBOL + "25. For each hotel pay " + UI.CURRENCY_SYMBOL + "100.",ACT_PAY_HOUSES,new int[] {25,100}));
