@@ -1,4 +1,4 @@
-
+package tonyInterfaces;
 public interface Bot {
 	
 	public String getName ();

@@ -1,8 +1,6 @@
 package tonyInterfaces;
 
 import java.util.Random;
-
-import monopoly.Rollable;
 public class Dice implements Rollable, DiceAPI {
 	private final static Random RND = new Random();
 	private static final int NUM_DICE = 2;

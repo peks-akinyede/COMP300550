@@ -13,6 +13,7 @@ public class InvestmentProperty extends PrivateProperty implements Improvable{
 		this.buildingPrice = buildingPrice;
 		this.colourGroup = colourGroup;
 		numBuildings = 0;
+		colourGroup.addMember(this);
 		// TODO Auto-generated constructor stub
 	}
 	

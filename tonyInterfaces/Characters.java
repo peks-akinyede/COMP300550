@@ -7,14 +7,12 @@ import java.util.Vector;
 public class Characters {
 	
 	private ArrayList<Person> characters = new ArrayList<Person>();
+	private Vector<String> vehicles = new Vector<String>();
 	
 	
 	public Characters(Vector<String> domains){
 		
-		
-		//String kdir =  "/Users/abdulsalim/Desktop/mydesktop/The-NOC-List-master/NOC/DATA/TSV Lists/";
-		String kdir =  "C:\\Users\\robert\\Documents\\.Year 3_Part2\\software eng3\\noc\\TSV Lists\\";
-		KnowledgeBaseModule n          = new KnowledgeBaseModule(kdir + "Veale's The NOC List.txt");
+		KnowledgeBaseModule n          = new KnowledgeBaseModule( "Veale's The NOC List.txt");
 		
 		//Go through domains and populate characters
 		for(String domain : domains){
@@ -72,7 +70,22 @@ public class Characters {
 		return chosen_person;
 	}
 	
-	public Vector<String> getRandomLocationsFromDomain(String domain, int number){
+	public Person getRandomPersonWithVehicle() {
+		Random RND 		= new Random();
+		Person person = characters.get(RND.nextInt(characters.size()));
+		int count = 0;
+		
+		
+		while(person.getVehicle()==null && count < 5){
+			person = characters.get(RND.nextInt(characters.size()));
+			count++;
+		}
+		
+		// TODO Auto-generated method stub
+		return person;
+	}
+	
+	public Vector<String> getRandomLocationsFromDomain(String domain, int number, Vector<String> all_locations){
 		Vector<String> locations = new Vector<String>();
 		
 		int i=0;
@@ -82,16 +95,16 @@ public class Characters {
 			
 			Person person = getRandomPersonFromDomain(domain);
 			
-			if(person.getAddress() != null && !locations.contains(person.getAddress())){
+			if(person.getAddress() != null && !locations.contains(person.getAddress()) && !all_locations.contains(person.getAddress())){
 				locations.add(person.getAddress());
 				i++;
 				
 			}
-			//System.out.println("here");
+			
 
 			
 			//To account for when there aren't enough unique addresses
-			if(count > 5){
+			if(count > 8){
 				String current_person = "";
 				for(int j = 0; j <= number - locations.size(); j++){
 					current_person = person.getName();
@@ -108,6 +121,20 @@ public class Characters {
 		}while(i<number && !here);
 		
 		
+		if(locations.size()<number){
+			Person person = getRandomPersonFromDomain(domain);
+			
+			String current_person = "";
+			for(int j = 0; j <= number - locations.size(); j++){
+				current_person = person.getName();
+				locations.add(person.getName()+ "'s House" );
+				do{
+					person = getRandomPersonFromDomain(domain);
+				}while(person.getName() == current_person);
+			}
+		}
+		
+		
 		
 		return locations;
 	}
@@ -117,12 +144,43 @@ public class Characters {
 		return characters.toString();
 	}
 	
-	public static void main(String[] args)
-	{
-		Domains d = new Domains();
-		Characters c = new Characters(d.getDomains());
-		System.out.println(d);
-		System.out.println(c);
+
+	public String getRandomVehicle() {
+		String vehicle = "";
+		Random RND 		= new Random();
+		Person person = characters.get(RND.nextInt(characters.size()));
+		vehicle = person.getVehicle();
+		int count = 0;
+		
+		
+		while(vehicle==null && count < 5){
+			person = characters.get(RND.nextInt(characters.size()));
+			vehicle = person.getVehicle();
+			count++;
+		}
+		
+		
+		
+		if(vehicles.contains(vehicle)){
+			vehicle = person.getName() + "'s Car";
+		}
+		
+		if(vehicles.contains(vehicle)){
+			vehicle = person.getName() + "'s Mom's Car";
+		}
+		
+		if(vehicles.contains(vehicle)){
+			vehicle = person.getName() + "'s Dad's Car";
+		}
+		
+		
+		if(!vehicles.contains(vehicle)){
+			vehicles.add(vehicle);
+		}
+		
+		// TODO Auto-generated method stub
+		
+		return vehicle;
 	}
 
 }

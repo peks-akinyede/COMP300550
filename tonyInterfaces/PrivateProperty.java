@@ -6,7 +6,7 @@ public class PrivateProperty extends NamedLocation implements Ownable, Mortgagab
 	private int price;
 	private boolean isOwned;
 	private boolean isMortgaged;
-	private int mortgagePrice;
+	private int mortgageValue;
 	protected int[] rentTable;
 	
 
@@ -16,7 +16,7 @@ public class PrivateProperty extends NamedLocation implements Ownable, Mortgagab
 		this.rentTable = rentTable;
 		isOwned = false;
 		isMortgaged = false;
-		mortgagePrice = mortgageValue;
+		this.mortgageValue = mortgageValue;
 		// TODO Auto-generated constructor stub
 	}
 
@@ -34,6 +34,13 @@ public class PrivateProperty extends NamedLocation implements Ownable, Mortgagab
 	public void setOwner(Player person){
 		owner = person;
 		isOwned = true;
+	}
+	
+	public void releaseOwnership () {
+		isOwned = false;
+		owner = null;
+		isMortgaged = false;
+		return;
 	}
 
 	//Money methods
@@ -57,7 +64,7 @@ public class PrivateProperty extends NamedLocation implements Ownable, Mortgagab
 	@Override
 	public int getMortgageAmount() {
 		// TODO Auto-generated method stub
-		return mortgagePrice;
+		return mortgageValue;
 	}
 	
 	public void setMortgaged() {
@@ -70,7 +77,7 @@ public class PrivateProperty extends NamedLocation implements Ownable, Mortgagab
 	
 	//Mortgage redemption costs 10% more than mortgage price
 	public int getMortgagePrice () {
-		return (int) (((float)  mortgagePrice) * 1.1f);
+		return (int) (((float)  mortgageValue) * 1.1f);
 	}
 	
 

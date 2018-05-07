@@ -9,9 +9,8 @@ public class Domains {
 	//Sets up the domains that properties from this class would be part of
 	public Domains(){
 		
-		String kdir = "C:\\Users\\Pekun\\OneDrive - University College Dublin\\School Stuff\\Stage 3\\The-NOC-List-master\\NOC\\DATA\\TSV Lists\\";
-		KnowledgeBaseModule d = new KnowledgeBaseModule(kdir + "Veale's domains.txt");
-		KnowledgeBaseModule n          = new KnowledgeBaseModule(kdir + "Veale's The NOC List.txt");
+		KnowledgeBaseModule d = new KnowledgeBaseModule("Veale's domains.txt");
+		KnowledgeBaseModule n          = new KnowledgeBaseModule("Veale's The NOC List.txt");
 		
 		//Go through NOC List and populate the domains arraylist
 		Vector<String> fields = d.getAllFrames();//prints first column of file (possibly)
@@ -21,7 +20,7 @@ public class Domains {
 			String potential_domain ;
 			potential_domain = d.selectRandomlyFrom(fields);
 			//Need to select domain with enough characters to make properties from
-			if(!domains.contains(potential_domain) && n.getAllKeysWithFieldValue("Domains", potential_domain).size() > 3){
+			if(!domains.contains(potential_domain) && n.getAllKeysWithFieldValue("Domains", potential_domain).size() > 4){
 				domains.addElement(potential_domain);
 			}
 			

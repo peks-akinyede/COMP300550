@@ -1,15 +1,38 @@
+package tonyInterfaces;
+
+import java.util.ArrayList;
+
+import java.lang.reflect.*;
 
 public class Monopoly {
+
+	
+	public static int NUM_PLAYERS = 2;
+	public static int NUM_BOTS = 0;
+	
 	
 	private static final int START_MONEY = 1500;
 	private static final int GO_MONEY = 200;
 	private static final int JAIL_FINE = 50;
+//	
+//	private Players players = new Players();
+//	private Player currPlayer;
+//	private Dice dice = new Dice();
+//	private WorldBuilder board = new WorldBuilder(dice);
+//	private UI ui = new UI(players, board);
+//	private ChanceDeck chanceDeck = new ChanceDeck();
+//	private CommunityChestDeck communityChestDeck = new CommunityChestDeck();
+//	private boolean gameOver = false;
+//	private boolean onlyOneNotBankrupt = false;
+//	private boolean turnFinished;
+//	private boolean rollDone;
+//	private int doubleCount;
 	
 	private Players players = new Players();
 	private Player currPlayer;
 	private Dice dice = new Dice();
-	private Board board = new Board(dice);
-	private UI ui = new UI(players, board);
+	private WorldBuilder board = new WorldBuilder(dice);
+	private UI ui;
 	private ChanceDeck chanceDeck = new ChanceDeck();
 	private CommunityChestDeck communityChestDeck = new CommunityChestDeck();
 	private boolean gameOver = false;
@@ -17,20 +40,110 @@ public class Monopoly {
 	private boolean turnFinished;
 	private boolean rollDone;
 	private int doubleCount;
+	private Bot[] bots;
+	private boolean hasBots = false;
 	
-	Monopoly () {
+	
+	
+	Monopoly (String[] args) {
+		
+		ui = new UI(players, board);
+		//how many players
+		NUM_PLAYERS = ui.inputNumberOfPlayers();
+		//are there bots
+		hasBots = ui.hasBots();
+		
+		if(hasBots){
+			NUM_BOTS = ui.numberOfBots();
+			bots = new Bot[NUM_BOTS];
+			setupBots();
+			ui.setBots(bots);
+		}
 		ui.display();
 		return;
 	}
+		
+	private void setupBots () {
+		String[] botNames = new String [NUM_BOTS];
+		String[] botnames = new String [NUM_BOTS];//names to be displayed for bots
+		
+		//Sets up two bots to play the game in case less than two players available
+		
+			for(int i=0;i<NUM_BOTS;i++){
+				
+				if(i%2==0){
+					botNames[i] = "tonyInterfaces.lagosBoys";
+					botnames[i] = board.getCharacter(i);
+				}
+				else{
+					botNames[i] = "tonyInterfaces.SudoAptGetRekt";
+					botnames[i] = board.getCharacter(i);
+				}
+								
+			}
+			
+			
+		
+		
+		for (int i=0; i<NUM_BOTS; i++) {
+			Player bot = new Player(botnames[i],BoardPanel.TOKEN_NAME[i+(NUM_PLAYERS-NUM_BOTS)],(NUM_PLAYERS-NUM_BOTS)+i);
+			bot.setAsBot();
+			bot.setBotNumber(i);
+			players.add(bot);
+			try {
+				Class<?> botClass = Class.forName(botNames[i]);
+				Constructor<?> botCons = botClass.getDeclaredConstructor(BoardAPI.class, PlayerAPI.class, DiceAPI.class);
+				bots[i] = (Bot) botCons.newInstance(board,players.get(i),dice);
+			} catch (IllegalAccessException ex) {
+				System.out.println("Error: Bot instantiation fail (IAE)");
+			    Thread.currentThread().interrupt();
+			} catch (InstantiationException ex) {
+				System.out.println("Error: Bot instantiation fail (IE)");
+			    Thread.currentThread().interrupt();
+			} catch (ClassNotFoundException ex) {
+				System.out.println("Error: Bot instantiation fail (CNFE)");
+			    Thread.currentThread().interrupt();
+			} catch (InvocationTargetException ex) {
+				System.out.println("Error: Bot instantiation fail (ITE)");
+			    Thread.currentThread().interrupt();
+			} catch (NoSuchMethodException ex) {
+				System.out.println("Error: Bot instantiation fail (NSME)");
+			    Thread.currentThread().interrupt();
+			}			
+		}
+		for(Player p: players.get()){
+			System.out.println(p.getIdentifier()+ " " + p.getBotNumber());
+		}
+		
+	}
 	
 	public void inputNames () {
+		
+			inputNamesPlayers();
+		
+	}
+	
+	
+	
+	public void inputNamesBots(){
+		
 		int playerId = 0;
 		do {
-			ui.inputName(playerId);
+			ui.inputNameBots(playerId);
+			playerId++;
+		} while (!ui.isDone()&& playerId<NUM_BOTS && players.canAddPlayer());
+		return;
+		
+	}
+	
+	public void inputNamesPlayers () {
+		int playerId = 0;
+		do {
+			ui.inputNameNoBots(playerId);
 			if (!ui.isDone()) {
 				boolean duplicate = false;
 				for (Player p : players.get()) {
-					if (ui.getString().toLowerCase().equals(p.getName().toLowerCase())) {
+					if (ui.getString().toLowerCase().equals(p.getIdentifier().toLowerCase())) {
 						duplicate = true;
 					}
 				}
@@ -41,7 +154,7 @@ public class Monopoly {
 					ui.displayError(UI.ERR_DUPLICATE);
 				}
 			}
-		} while (!ui.isDone() && players.canAddPlayer());
+		} while (!ui.isDone() && playerId<NUM_PLAYERS-NUM_BOTS && players.canAddPlayer());
 		return;
 	}
 	
@@ -52,13 +165,14 @@ public class Monopoly {
 		}
 		return;
 	}
+	
 	public void decideStarter () {
 		Players inPlayers = new Players(players), selectedPlayers = new Players();
 		boolean tie = false;
 		do {
 			int highestTotal = 0;
 			for (Player p : inPlayers.get()) {
-				dice.roll();
+				dice.rollDice(2,6);//roll two 6 sided dice
 				ui.displayDice(p,dice);
 				if (dice.getTotal() > highestTotal) {
 					tie = false;
@@ -81,7 +195,7 @@ public class Monopoly {
 		ui.display();
 		return;
 	}
-
+	
 	private void checkPassedGo () {
 		if (currPlayer.passedGo()) {
 			currPlayer.doTransaction(+GO_MONEY);
@@ -90,6 +204,7 @@ public class Monopoly {
 		}
 		return;
 	}
+	
 	private void cardAction (Card card) {
 		switch (card.getAction()) {
 			case CardDeck.ACT_GO_FORWARD :
@@ -149,15 +264,15 @@ public class Monopoly {
 				}
 				break;
 		}	
-		return;
+	
 	}
 	
 	private void squareArrival () {
 		ui.displaySquare(currPlayer);
-		Square square = board.getSquare(currPlayer.getPosition());
-		if (square instanceof Property && ((Property) square).isOwned() && !((Property) square).getOwner().equals(currPlayer) ) {
-			int rent = ((Property) square).getRent();
-			Player owner = ((Property) square).getOwner();
+		NamedLocation square = board.getSquare(currPlayer.getPosition());
+		if (square instanceof PrivateProperty && ((PrivateProperty) square).isOwned() && !((PrivateProperty) square).getOwner().equals(currPlayer) ) {
+			int rent = ((PrivateProperty) square).getRentalAmount();
+			Player owner = ((PrivateProperty) square).getOwner();
 			currPlayer.doTransaction(-rent);
 			owner.doTransaction(+rent);
 			ui.displayTransaction(currPlayer, owner);
@@ -171,8 +286,9 @@ public class Monopoly {
 			ui.displayCard(card);
 			cardAction(card);
 			communityChestDeck.add(card);
-		} else if (square instanceof Tax) {
-			int amount = ((Tax) square).getAmount();
+		}
+	else if (square instanceof TaxableProperty) {
+			int amount = ((TaxableProperty) square).getFlatAmount();
 			currPlayer.doTransaction(-amount);					
 			ui.displayBankTransaction(currPlayer);
 		} else if (square instanceof GoToJail) {
@@ -186,7 +302,7 @@ public class Monopoly {
 	private void rollCommand () {
 		if (!rollDone) {
 			if (currPlayer.getBalance() >= 0) {
-				dice.roll();
+				dice.rollDice(2,6);
 				ui.displayDice(currPlayer, dice);
 				if (!currPlayer.isInJail()) {
 					currPlayer.move(dice.getTotal());
@@ -230,8 +346,9 @@ public class Monopoly {
 	}
 	
 	private void buyCommand () {
-		if (board.getSquare(currPlayer.getPosition()) instanceof Property) {
-			Property property = (Property) board.getSquare(currPlayer.getPosition());
+		if (board.getSquare(currPlayer.getPosition()) instanceof PrivateProperty) {
+			PrivateProperty property = (PrivateProperty) board.getSquare(currPlayer.getPosition());
+			System.out.println(property.getIdentifier()+ " buy board");
 			if (!property.isOwned()) {
 				if (currPlayer.getBalance() >= property.getPrice()) {				
 					currPlayer.doTransaction(-property.getPrice());
@@ -251,14 +368,17 @@ public class Monopoly {
 	}
 	
 	private void buildCommand () {
-		Property property = ui.getInputProperty();
+		PrivateProperty property = ui.getInputProperty();
+		System.out.println(property.getIdentifier()+ " build board");
 		if (property.isOwned() && property.getOwner().equals(currPlayer)) {
-			if (property instanceof Site) {
-				Site site = (Site) property;
+			if (property instanceof InvestmentProperty) {
+				InvestmentProperty site = (InvestmentProperty) property;
 				if (currPlayer.isGroupOwner(site)) {
 					if (!site.isMortgaged()) {
 						int numBuildings = ui.getInputNumber();
 						if (numBuildings>0) {
+							System.out.println(numBuildings);
+							System.out.println(site.canBuild(numBuildings));
 							if (site.canBuild(numBuildings)) {
 								int debit = numBuildings*site.getBuildingPrice();
 								if (currPlayer.getBalance()>debit) {
@@ -290,10 +410,11 @@ public class Monopoly {
 	}
 	
 	private void demolishCommand () {
-		Property property = ui.getInputProperty();
+		PrivateProperty property = ui.getInputProperty();
+		System.out.println(property.getIdentifier()+ " demolish board");
 		if (property.isOwned() && property.getOwner().equals(currPlayer)) {
-			if (property instanceof Site) {
-				Site site = (Site) property;
+			if (property instanceof InvestmentProperty) {
+				InvestmentProperty site = (InvestmentProperty) property;
 				int numBuildings = ui.getInputNumber();
 				if (numBuildings>0) {
 					if (site.canDemolish(numBuildings)) {
@@ -316,21 +437,6 @@ public class Monopoly {
 		return;		
 	}
 	
-	private void cheatCommand () {
-		switch (ui.getInputNumber()) {
-			case 1 :       // acquire colour group
-				Property property = board.getProperty("kent");
-				currPlayer.addProperty(property);		
-				property = board.getProperty("whitechapel");
-				currPlayer.addProperty(property);
-				break;
-			case 2 :	   // make zero balance
-				currPlayer.doTransaction(-currPlayer.getBalance());
-				break;
-		}
-		return;
-	}
-	
 	private void bankruptCommand () {
 		ui.displayBankrupt(currPlayer);
 		Player tempPlayer = players.getNextPlayer(currPlayer);
@@ -345,12 +451,14 @@ public class Monopoly {
 	}
 	
 	private void mortgageCommand () {
-		Property property = ui.getInputProperty();
+		PrivateProperty property = ui.getInputProperty();
+		System.out.println(property.getIdentifier()+ " motgage board");
 		if (property.isOwned() && property.getOwner().equals(currPlayer)) {
-			if ((property instanceof Site) && !((Site) property).hasBuildings() || (property instanceof Station) || (property instanceof Utility)) {
+			if ((property instanceof InvestmentProperty) && !((InvestmentProperty) property).hasBuildings() || (property instanceof Vehicle) || (property instanceof Utility)) {
+//				System.out.println(!property.isMortgaged()+" mono");
 				if (!property.isMortgaged()) {
 					property.setMortgaged();
-					currPlayer.doTransaction(+property.getMortgageValue());
+					currPlayer.doTransaction(+property.getMortgagePrice());
 					ui.displayMortgage(currPlayer,property);
 				} else {
 					ui.displayError(UI.ERR_IS_MORTGAGED);
@@ -381,7 +489,7 @@ public class Monopoly {
 		} else {
 			ui.displayError(UI.ERR_NOT_IN_JAIL);
 		}
-		return;
+		
 	}
 	
 	private void payCommand () {
@@ -402,12 +510,13 @@ public class Monopoly {
 	}
 	
 	private void redeemCommand () {
-		Property property = ui.getInputProperty();
+		PrivateProperty property = ui.getInputProperty();
+		System.out.println(property.getIdentifier()+ " redeem board");
 		if (property.isOwned() && property.getOwner().equals(currPlayer)) {
 			if (property.isMortgaged()) {
-				int price = property.getMortgageRemptionPrice();
+				int price = property.getMortgageAmount();
 				if (currPlayer.getBalance() >= price) {
-					property.setNotMortgaged();
+					property.unmortgage();
 					currPlayer.doTransaction(-price);
 					ui.displayMortgageRedemption(currPlayer,property);
 				} else {
@@ -436,6 +545,9 @@ public class Monopoly {
 	}
 	
 	public void processTurn () {
+		
+	
+		System.out.println("person playing is "+ currPlayer.getBotNumber()+ " "+ currPlayer.getIdentifier());
 		turnFinished = false;
 		rollDone = false;
 		doubleCount = 0;
@@ -476,9 +588,6 @@ public class Monopoly {
 				case UI.CMD_PAY:
 					payCommand();
 					break;
-				case UI.CMD_CHEAT :
-					cheatCommand();
-					break;
 				case UI.CMD_HELP :
 					ui.displayCommandHelp();
 					break;
@@ -504,13 +613,14 @@ public class Monopoly {
 			ui.displayWinner(currPlayer);			
 		} else {
 			ArrayList<Player> playersWithMostAssets = new ArrayList<Player>();
-			int mostAssets = players.get(0).getAssets();
+			int mostAssets = players.get(0).getNetWorth();
 			for (Player player : players.get()) {
 				ui.displayAssets(player);
-				if (player.getAssets() > mostAssets) {
+				if (player.getNetWorth() > mostAssets) {
 					playersWithMostAssets.clear(); 
 					playersWithMostAssets.add(player);
-				} else if (player.getAssets() == mostAssets) {
+					mostAssets = player.getNetWorth();
+				} else if (player.getNetWorth() == mostAssets) {
 					playersWithMostAssets.add(player);
 				}
 			}
@@ -531,6 +641,4 @@ public class Monopoly {
 	public boolean isGameOver () {
 		return gameOver;
 	}
-	
-
 }

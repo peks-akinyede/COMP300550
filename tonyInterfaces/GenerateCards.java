@@ -39,25 +39,18 @@ public class GenerateCards {
 	private Hashtable ALL_QUALITIES 		 = null;
 	private Vector attributeFields 			 = null;
 	private Vector allFields	 			 = null;
-	private String knowledgeDir				 = null;
-
+	
 
 
 
 	public GenerateCards()
 	{
-		//knowledgeDir = "/Users/abdulsalim/Desktop/mydesktop/The-NOC-List-master/NOC/DATA/TSV Lists/";
-		knowledgeDir = "C:\\Users\\robert\\Documents\\.Year 3_Part2\\software eng3\\noc\\TSV Lists\\";
 		
-		NOC           = new KnowledgeBaseModule(knowledgeDir + "Veale's The NOC List.txt", 0);
+		NOC           = new KnowledgeBaseModule("Veale's The NOC List.txt", 0);
 		
-	//	CLOTHES       = new KnowledgeBaseModule(knowledgeDir + "Veale's clothing line.txt", 1);  // 1 is the column number of the key value
-		CLOTHES       = new KnowledgeBaseModule(knowledgeDir + "clothing line.txt", 1);  // 1 is the column number of the key value
+		CLOTHES       = new KnowledgeBaseModule("Veale's clothing line.txt", 1);  // 1 is the column number of the key value
 		
-		//VEHICLES      = new KnowledgeBaseModule(knowledgeDir + "Veale's vehicle fleet.txt", 1);  // 1 is the column number of the key value
-
-		VEHICLES      = new KnowledgeBaseModule(knowledgeDir + "vehicle fleet.txt", 1);  // 1 is the column number of the key value
-		
+		VEHICLES      = new KnowledgeBaseModule("Veale's vehicle fleet.txt", 1);  // 1 is the column number of the key value
 
 
 

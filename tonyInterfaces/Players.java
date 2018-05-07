@@ -1,8 +1,10 @@
+package tonyInterfaces;
+
 import java.util.ArrayList;
 
 public class Players {
 
-	public static final int MAX_NUM_PLAYERS = 6;
+	public static int MAX_NUM_PLAYERS = 6;
 
 	private ArrayList<Player> players = new ArrayList<Player>();
 	private boolean playerWasRemoved = false;
@@ -71,9 +73,9 @@ public class Players {
 	}
 	
 	public void remove (Player player) {
-		for (Property p : player.getProperties()) {
-			if (p instanceof Site) {
-				((Site) p).demolishAll();
+		for (PrivateProperty p : player.getProperties()) {
+			if (p instanceof InvestmentProperty) {
+				((InvestmentProperty) p).demolishAll();
 			}
 			p.releaseOwnership();
 		}

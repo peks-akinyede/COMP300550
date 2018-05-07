@@ -544,19 +544,11 @@ public class KnowledgeBaseModule
 	
 	private void loadKnowledgeBaseFrom(String filename, int keyPosition)
 	{
-		FileInputStream input;
+		InputStream input;
 
-		try {
-		    input = new FileInputStream(filename);
-		    
-		    loadKnowledgeBaseFrom(input, keyPosition);
-		}
-		catch (IOException e)
-		{
-			System.out.println("Cannot find/load knowledge file: " + filename);
-			
-			e.printStackTrace();
-		}
+		input = this.getClass().getResourceAsStream(filename);
+		
+		loadKnowledgeBaseFrom(input, keyPosition);
 	}
 	
 		
@@ -701,7 +693,7 @@ public class KnowledgeBaseModule
 	
 	public static void main(String[] args)
 	{
-		String kdir = "C:\\Users\\Pekun\\OneDrive - University College Dublin\\School Stuff\\Stage 3\\The-NOC-List-master\\NOC\\DATA\\TSV Lists\\";
+		String kdir =  "C:\\Users\\Pekun\\OneDrive - University College Dublin\\School Stuff\\Stage 3\\The-NOC-List-master\\NOC\\DATA\\TSV Lists\\";
 		
 		KnowledgeBaseModule NOC          = new KnowledgeBaseModule(kdir + "Veale's The NOC List.txt", 0);
 		KnowledgeBaseModule CATEGORIES   = new KnowledgeBaseModule(kdir + "Veale's Category Hierarchy.txt", 0);

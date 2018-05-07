@@ -2,9 +2,10 @@ package tonyInterfaces;
 
 import java.util.ArrayList;
 
-public class Player implements Playable{
+public class Player implements Playable, PlayerAPI{
 
 private static final int MAX_NUM_JAIL_EXIT_ATTEMPTS = 3;
+
 	
 	private String name;
 	private int position;
@@ -17,6 +18,8 @@ private static final int MAX_NUM_JAIL_EXIT_ATTEMPTS = 3;
 	private boolean inJail;
 	private int numJailExitAttempts;
 	private ArrayList<Card> cards = new ArrayList<Card>();
+	private int bot_number=0;
+	private boolean isBot = false;
 	
 	Player(String name, String tokenName, int tokenId) {
 		this.name = name;
@@ -37,6 +40,22 @@ private static final int MAX_NUM_JAIL_EXIT_ATTEMPTS = 3;
 	public String getIdentifier() {
 		// TODO Auto-generated method stub
 		return name;
+	}
+	
+	public void setBotNumber(int n){
+		bot_number = n;
+	}
+	
+	public int getBotNumber(){
+		return bot_number;
+	}
+	
+	public boolean isBot(){
+		return isBot;
+	}
+	
+	public void setAsBot(){
+		isBot = true;
 	}
 	
 	public String getTokenName () {
@@ -113,20 +132,20 @@ private static final int MAX_NUM_JAIL_EXIT_ATTEMPTS = 3;
 		public void addCard (Card card) {
 			cards.add(card);
 		}
-//		
-//		public boolean hasGetOutOfJailCard () {
-//			boolean hasCard = false;
-//			if (cards.size()> 0) {
-//				hasCard = cards.get(0).getAction() == CardDeck.ACT_GET_OUT_OF_JAIL;
-//			}
-//			return hasCard;
-//		}
-//		
-//		public Card getCard () {
-//			Card card = cards.get(0);
-//			cards.remove(0);
-//			return card;
-//		}
+		
+		public boolean hasGetOutOfJailCard () {
+			boolean hasCard = false;
+			if (cards.size()> 0) {
+				hasCard = cards.get(0).getAction() == CardDeck.ACT_GET_OUT_OF_JAIL;
+			}
+			return hasCard;
+		}
+		
+		public Card getCard () {
+			Card card = cards.get(0);
+			cards.remove(0);
+			return card;
+		}
 		
 	//  Money methods
 		
@@ -232,6 +251,33 @@ private static final int MAX_NUM_JAIL_EXIT_ATTEMPTS = 3;
 		
 		public String toString () {
 			return name + " (" + tokenName + ")";
+		}
+
+		@Override
+		public String getName() {
+			// TODO Auto-generated method stub
+			return name;
+		}
+
+		@Override
+		public int getAssets() {
+			// TODO Auto-generated method stub
+			int assets = balance;
+			for (PrivateProperty property: properties) {
+				assets = assets + property.getPrice();
+			}
+			return assets;
+		}
+
+		@Override
+		public int getNumStationsOwned() {
+			int numOwned = 0;
+			for (PrivateProperty p : properties) {
+				if (p instanceof Vehicle) {
+					numOwned++;
+				}
+			}
+			return numOwned;
 		}
 
 }
