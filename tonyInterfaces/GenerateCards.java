@@ -91,8 +91,17 @@ public class GenerateCards {
 					String vehicle = (String)vehicles.elementAt(v);
 					String determiner = VEHICLES.getFirstValue("Determiner", vehicle);
 					String affordance = VEHICLES.getFirstValue("Affordances", vehicle);
+					if (affordance == null && determiner == null) {
+						comesAlong   = "You're going on an adventure. "+ Character + " comes along "+ " via "+ possPro+ " "+vehicle +" and " +pronoun+ " says get in.";
+					}
+					else if (affordance == null) {
+						comesAlong   = "You're going on an adventure. "+ Character + " comes along "+ " via "+ determiner+ " "+vehicle +" and " +pronoun+ " says get in.";
+					}
+					else if (determiner == null) {
+						comesAlong   = "You're going on an adventure. "+ Character + " comes along "+ affordance +" "+ vehicle +" and " +pronoun+ " says get in.";
+					}else {
 					comesAlong   = "You're going on an adventure. "+ Character + " comes along "+ affordance +" "+determiner+" "+ vehicle +" and " +pronoun+ " says get in.";
-
+					}
 
 					outPut  = comesAlong;
 				}
@@ -178,11 +187,20 @@ public class GenerateCards {
 		if (vehicles != null) 
 		{
 			for (int v = 0; v < vehicles.size(); v++)
-			{
-				String vehicle = (String)vehicles.elementAt(v);
-				String det = VEHICLES.getFirstValue("Determiner", vehicle);
-				String aff = VEHICLES.getFirstValue("Affordances", vehicle);
-				comesAlong   = Character + " comes along "+ aff +" "+det+" "+ vehicle +" and " +pronoun+ " gives you ";
+			{String vehicle = (String)vehicles.elementAt(v);
+			String determiner = VEHICLES.getFirstValue("Determiner", vehicle);
+			String affordance = VEHICLES.getFirstValue("Affordances", vehicle);
+			if (affordance == null && determiner == null) {
+				comesAlong   = Character + " comes along "+ " via "+ possPro+ " "+vehicle +" and " +pronoun+ " says get in.";
+			}
+			else if (affordance == null) {
+				comesAlong   =  Character + " comes along "+ " via "+ determiner+ " "+vehicle +" and " +pronoun+ " says get in.";
+			}
+			else if (determiner == null) {
+				comesAlong   =  Character + " comes along "+ affordance +" the "+ vehicle +" and " +pronoun+ " says get in.";
+			}else {
+			comesAlong   = Character + " comes along "+ affordance +" "+determiner+" "+ vehicle +" and " +pronoun+ " says get in.";
+			}
 				outPut  = Activity + " " + comesAlong;
 			}
 		}
@@ -302,10 +320,9 @@ public class GenerateCards {
 		String Character = (String)Heros.get(rnd);
 		Vector enemy = NOC.getFieldValues("Opponent", Character );
 		if(enemy == null) { 
-			////Vector EvilPeople = NOC.getAllKeysWithFieldValue("Negative Talking Points", "evil");
-			//int r = new Random().nextInt(EvilPeople.size());
+			
 			nemesis = EvilDoing();
-					//(String)EvilPeople.get(r);
+					
 
 		}else
 			try {
@@ -384,12 +401,7 @@ public class GenerateCards {
 		//System.out.println(pan.RewardCard());
 		//System.out.println(pan.fineCard() );
 		//		System.out.println(pan.GetOutOfJaillCard());
-		//		System.out.println(pan.quiz());
-		//		System.out.println(pan.gamble());
-		//System.out.println(pan.characters);
-		//		String name = (pan.domains);
-		//					System.out.println(name);
-		//					System.out.println(pan.characters.getRandomPersonFromDomain(name));
+				
 	}
 
 }
