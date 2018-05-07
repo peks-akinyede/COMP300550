@@ -17,8 +17,8 @@ class BoardPanel extends JPanel {
 	private static final Color[] PLAYER_COLORS = {Color.RED,Color.BLUE,Color.YELLOW,Color.GREEN,Color.MAGENTA,Color.WHITE};
 	public static final String[] TOKEN_NAME = {"red","blue","yellow","green","magenta","white"};
 	private static final float[] PLAYER_OFFSET = {0, 0.01f, 0.02f, 0.03f, 0.04f, 0.05f};
-	private static final float[][] CORNER_FROM = { {610, 630}, {5, 600}, {40,5}, {630, 40},};
-	private static final float[][] CORNER_TO = {{60, 630}, {5, 70}, {600,5}, {630, 600}};
+	private static final float[][] CORNER_FROM = { {650, 630}, {10, 620}, {40,5}, {630, 40},};
+	private static final float[][] CORNER_TO = {{60, 630}, {0, 70}, {600,5}, {630, 600}};
 	private static final int[] JAIL_COORDS = {60,700};
 	
 	private Players players;	
@@ -31,10 +31,8 @@ class BoardPanel extends JPanel {
 		setPreferredSize(new Dimension(FRAME_WIDTH, FRAME_HEIGHT));
 		
 		setBackground(Color.WHITE);
-		//setSize(700,700);
 		try {
 			boardImage = ImageIO.read(this.getClass().getResource("board.png"));
-//			boardImage = ImageIO.read(new File("board.png"));
 		} catch (IOException ex) {
 			System.out.println("Could not find the image file " + ex.toString());
 		}
