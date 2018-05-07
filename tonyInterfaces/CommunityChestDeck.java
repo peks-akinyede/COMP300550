@@ -7,7 +7,7 @@ public class CommunityChestDeck extends CardDeck {
 
 		// Movement
 		cards.add(new Card(COMMUNITY_CHEST,pan.MovementCards()+"Forword to Go",ACT_GO_FORWARD,WorldBuilder.POS_GO));
-		cards.add(new Card(COMMUNITY_CHEST,pan.MovementCards()+ "back to",ACT_GO_BACKWARD,WorldBuilder.POS_OLD_KENT_RD));
+		cards.add(new Card(COMMUNITY_CHEST,pan.MovementCards()+ " You both arrive at: ",ACT_GO_BACKWARD,WorldBuilder.POS_OLD_KENT_RD));
 
 		// Taxes, Fines, etc.
 		cards.add(new Card(COMMUNITY_CHEST,pan.fineCard()+" Pay fine of" +  UI.CURRENCY_SYMBOL + "100.",ACT_PAY,100));
