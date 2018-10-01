@@ -2,7 +2,7 @@
 Panopoly
 
 
-To run project please collect packages: tonyInterfaces, tabular and monopoly
+To run the game please collect packages: tonyInterfaces, tabular and monopoly
 
 Please run on a 13" laptop for best results :)
 
